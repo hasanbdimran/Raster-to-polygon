@@ -1,1 +1,20 @@
+import rasterio
+import numpy
+import geopandas 
+import os
+#from shapely.geometry import shape
+from rasterio.features import shapes
+raster_bin = r"C:\connectivity_project\data\snapped_landuse1\2001-2019"
 
+mask = None
+#with rasterio.Env():
+with rasterio.open(os.path.join(raster_bin, "aligned_2001.tif")) as src:
+    image = src.read(1).astype('int16') # first band
+    results = (
+    {'properties': {'raster_val': v}, 'geometry': s}
+    for i, (s, v) 
+    in enumerate(
+        shapes(image, mask=mask, transform=src.transform)))
+
+geoms = list(results)
+ras_2001_poly  = gpd.GeoDataFrame.from_features(geoms)
