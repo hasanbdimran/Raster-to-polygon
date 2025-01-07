@@ -1,6 +1,6 @@
 import rasterio
 import numpy
-import geopandas 
+import geopandas as gpd
 import os
 #from shapely.geometry import shape
 from rasterio.features import shapes
